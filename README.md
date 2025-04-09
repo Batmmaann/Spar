@@ -1,134 +1,160 @@
-# SPAR: Single-Camera Player Analysis and Rating
+SPAR: Single-Camera Player Analysis and Rating
+SPAR is an AI-powered system designed to analyze football matches using a single high-definition camera. Leveraging state-of-the-art computer vision and machine learning techniques, SPAR detects, tracks, and evaluates players’ performance, providing detailed insights into their skills, physical metrics, and potential market value. This tool aids scouts, coaches, and sports analysts in making informed decisions regarding talent discovery and team composition.
 
-SPAR is an AI-powered system designed to analyze football matches using a single high-definition camera. By leveraging state-of-the-art computer vision and machine learning techniques, SPAR detects, tracks, and evaluates players’ performance, providing detailed insights into their skills, physical metrics, and potential market value. This tool helps scouts, coaches, and sports analysts make informed decisions regarding talent discovery and team composition.
+Table of Contents
+Features
 
-## Table of Contents
-- [Features](#features)
-- [Project Structure](#project-structure)
-- [Installation and Setup](#installation-and-setup)
-- [Usage](#usage)
-- [Modules and Data Flow](#modules-and-data-flow)
-- [License](#license)
+Project Structure
 
-## Features
-- **Single-Camera Analysis**: Requires only one camera covering the entire pitch.
-- **Detection & Tracking**: Uses YOLO for object detection and Deep SORT for multi-object tracking to monitor players, referees, and the ball.
-- **Camera Movement Compensation**: Estimates camera motion to stabilize tracking, even when the camera pans or zooms.
-- **Player Metrics**: Calculates key performance metrics such as speed, distance covered, and ball possession.
-- **Team Assignment**: Automatically assigns players to teams based on color analysis and other heuristics.
-- **Performance Evaluation**: Aggregates and rates player performance for talent identification and strategic decisions.
-- **(Optional) View Transformation**: Converts screen coordinates to real-world coordinates if calibration data is available.
+Installation and Setup
 
-## Project Structure
+Usage
+
+Modules and Data Flow
+
+License
+
+Features
+Single-Camera Analysis: Utilizes one camera covering the entire pitch.
+
+Detection & Tracking: Integrates YOLO for object detection and Deep SORT for multi-object tracking to monitor players, referees, and the ball.
+
+Camera Movement Compensation: Estimates and compensates for camera motion (panning/zooming) to provide stable tracking.
+
+Player Metrics: Computes key performance indicators such as speed, distance covered, and ball possession.
+
+Team Assignment: Automatically assigns players to teams using color analysis and additional heuristics.
+
+Performance Evaluation: Aggregates and rates player performance to assist with talent identification and strategic decisions.
+
+(Optional) View Transformation: Converts screen coordinates to real-world field coordinates when calibration data is available.
+
+Project Structure
+pgsql
+Copy
 SPAR
 ├── ai-model
-│ ├── camera_movement_estimator
-│ ├── deep_sort_tracker
-│ ├── player_ball_assigner
-│ ├── performance_evaluator
-│ ├── speed_and_distance_estimator
-│ ├── team_assigner
-│ ├── utils
-│ ├── view_transformer
-│ ├── server.py <-- Primary entry point for the AI pipeline
-│ └── models <-- Contains YOLO model weights (use Git LFS or exclude)
-├── dashboard <-- (Optional) Front-end to visualize results
-│ ├── public
-│ ├── src
-│ ├── package.json
-│ └── next.config.js
-├── requirements.txt <-- Python dependencies
+│   ├── camera_movement_estimator
+│   ├── deep_sort_tracker
+│   ├── player_ball_assigner
+│   ├── performance_evaluator
+│   ├── speed_and_distance_estimator
+│   ├── team_assigner
+│   ├── utils
+│   ├── view_transformer
+│   ├── server.py                <-- Primary entry point for the AI pipeline
+│   └── models                   <-- Contains YOLO model weights (manage with Git LFS if >100MB)
+├── dashboard                    <-- (Optional) Front-end to visualize results
+│   ├── public
+│   ├── src
+│   ├── package.json
+│   └── next.config.js
+├── requirements.txt             <-- Python dependencies
 ├── .gitignore
-└── README.md <-- This file
+└── README.md                    <-- This file
+Installation and Setup
+Clone the Repository
+Clone this repository using Git:
 
+bash
 Copy
+git clone https://github.com/Batmmaann/Spar.git
+cd Spar
+Create and Activate a Virtual Environment
+It is recommended to use a Python virtual environment:
 
-**Key Directories**:
-- `ai-model/`: Modules for detection, tracking, processing, and evaluation.
-- `dashboard/`: (Optional) Web-based dashboard for visualization.
-- `models/`: Directory for YOLO weights (manage large files via Git LFS).
-
-## Installation and Setup
-1. **Clone the repository**:
-   ```bash
-   git clone https://github.com/Batmmaann/Spar.git
-   cd Spar
-Create and activate a Python virtual environment:
-
-Linux/Mac:
+On Linux/Mac:
 
 bash
 Copy
 python3 -m venv venv
 source venv/bin/activate
-Windows:
+On Windows:
 
 bash
 Copy
 python -m venv venv
 venv\Scripts\activate
-Install dependencies:
+Install Python Dependencies
+Install the required libraries:
 
 bash
 Copy
 pip install -r requirements.txt
-Model Weights:
+Model Weights
+Ensure your YOLO model weights (e.g., best.pt) are placed inside the ai-model/models/ directory.
+For files larger than 100MB, consider using Git LFS or exclude these files from your repository.
 
-Place YOLO weights (e.g., best.pt) in ai-model/models/.
+(Optional) Dashboard Setup
+If you wish to run the dashboard for visualization, follow these steps:
 
-Use Git LFS for files >100MB or exclude them.
-
-(Optional) Dashboard Setup:
+Navigate to the dashboard directory:
 
 bash
 Copy
 cd dashboard
+Install Node.js dependencies:
+
+bash
+Copy
 npm install
-npm run dev  # Starts dev server at http://localhost:3000
+Start the development server:
+
+bash
+Copy
+npm run dev
+Open your browser and go to http://localhost:3000.
+
 Usage
-Run the AI pipeline from the project root:
+To run the AI pipeline, execute the following command from the project root (or from the ai-model/ directory):
 
 bash
 Copy
 python server.py
-Process Overview:
+What Happens Under the Hood
+Frame Processing: Reads video frames from a source file (e.g., input_videos/sample.mp4).
 
-Frame Processing: Reads video from input_videos/sample.mp4.
+Detection & Tracking: YOLO identifies objects and Deep SORT associates detections across frames.
 
-Detection & Tracking: YOLO and Deep SORT track objects.
+Camera Movement Estimation: Compensates for any camera panning/zoom to stabilize the tracking.
 
-Camera Stabilization: Adjusts for camera movement.
+Metrics & Assignment: Calculates speed, distance, ball possession, and assigns team colors.
 
-Metrics & Assignment: Computes speed, distance, team, and ball possession.
+Performance Evaluation: Generates performance ratings for each player.
 
-Evaluation: Generates player ratings.
-
-Output: Annotated video saved to output_videos/output_video.avi.
+Output: Produces an annotated video saved to output_videos/output_video.avi for review and further analysis.
 
 Modules and Data Flow
 YOLO Detection: Identifies players, referees, and the ball.
 
-Deep SORT Tracking: Assigns consistent IDs across frames.
+Deep SORT Tracking: Links detections across frames to assign consistent IDs.
 
-Camera Movement Estimator: Stabilizes coordinates during camera motion.
+Camera Movement Estimator: Calculates offsets to adjust for camera movement.
 
-View Transformer: Maps frame positions to real-world coordinates (optional).
+(Optional) View Transformer: Maps in-frame positions to actual field coordinates.
 
-Speed/Distance Estimator: Calculates movement metrics.
+Speed and Distance Estimator: Computes movement metrics for each player.
 
-Team Assigner: Determines team associations.
+Team Assigner: Determines team affiliation based on uniform colors.
 
-Player Ball Assigner: Tracks ball possession.
+Player Ball Assigner: Detects ball possession.
 
-Performance Evaluator: Aggregates metrics into ratings.
+Performance Evaluator: Aggregates and rates the performance metrics.
 
-Data Flow:
+Data Flow Overview:
 
+css
 Copy
-Input Video → YOLO → Detections → Deep SORT → Tracks
-            ↓
-Camera Movement Estimation → Adjusted Tracks → Speed/Distance & Team Assignment → Performance Evaluation → Output
+Input Video → YOLO Detection → Detections → Deep SORT Tracking → Tracks
+             ↓
+      Camera Movement Estimation → Adjusted Tracks
+             ↓
+  Speed/Distance & Team Assignment → Performance Evaluation
+             ↓
+ Output (Annotated Video & Logs)
 License
-This project is licensed under the MIT License. See LICENSE for details.
+This project is open-sourced under the MIT License.
+If you have a different licensing model, please update this section accordingly.
 
-Explore SPAR and transform football analysis with AI! For questions or contributions, open an issue or submit a pull request.
+Enjoy exploring the SPAR project and leveraging AI to transform football analysis!
+If you have any questions or would like to contribute, please open an issue or submit a pull request.
