@@ -1,0 +1,10 @@
+opencv-python==4.11.0.46
+ultralytics==8.3.96
+supervision==0.8.5
+deep_sort_realtime==1.2.0
+scikit-learn==1.2.2
+pandas==2.2.4
+scipy==1.10.1
+numpy==2.2.4
+torch==2.6.0+cu121  # Note: install the correct torch build for your environment
+torchvision==0.21.0+cu121
