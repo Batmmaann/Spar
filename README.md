@@ -7,7 +7,7 @@ SPAR is an AI-powered system designed to analyze football matches using a single
 - [Project Structure](#project-structure)
 - [Installation and Setup](#installation-and-setup)
 - [Usage](#usage)
-- [Modules and Data Flow](#modules-and-data-flow)
+- [Modules](#modules)
 - [License](#license)
 
 ## Features
@@ -120,9 +120,9 @@ python server.py
 3. **Camera Movement Estimation:** Compensates for any camera panning/zoom to stabilize the tracking.
 4. **Metrics & Assignment:** Calculates speed, distance, ball possession, and assigns team colors.
 5. **Performance Evaluation:** Generates performance ratings for each player.
-6. **Output:** Produces an annotated video saved to `output_videos/output_video.avi` for review and further analysis.
+6. **Output:** Produces the rating of the player and the potential contract price for review and further analysis.
 
-## Modules and Data Flow
+## Modules
 
 1. **YOLO Detection:** Identifies players, referees, and the ball.
 2. **Deep SORT Tracking:** Links detections across frames to assign consistent IDs.
@@ -133,17 +133,6 @@ python server.py
 7. **Player Ball Assigner:** Detects ball possession.
 8. **Performance Evaluator:** Aggregates and rates the performance metrics.
 
-### Data Flow Overview
-
-```plaintext
-Input Video → YOLO Detection → Detections → Deep SORT Tracking → Tracks
-             ↓
-      Camera Movement Estimation → Adjusted Tracks
-             ↓
-  Speed/Distance & Team Assignment → Performance Evaluation
-             ↓
- Output (Annotated Video & Logs)
-```
 
 ## License
 
